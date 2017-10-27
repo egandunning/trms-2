@@ -73,3 +73,8 @@ local.properties
 .worksheet
 
 /target/
+
+
+#project files
+.classpath
+.project

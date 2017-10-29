@@ -2,6 +2,7 @@ package com.revature.trms.database.dao;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		cf = ConnectionFactory.getInstance();
 	}
 	
+	@Override
 	public void addEmployee(Employee e) throws SQLException {
 		
 		if(e == null) {
@@ -53,6 +55,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 	}
 
+	@Override
 	public List<Employee> getEmployees() throws SQLException {
 		
 		String sql = "{call read_all_employees(?)}";
@@ -76,6 +79,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	}
 
+	@Override
 	public List<Employee> getEmployees(int departmentId) throws SQLException {
 
 		String sql = "{call read_employees_by_dept(?, ?)}";
@@ -99,6 +103,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 	}
 
+	@Override
 	public List<Employee> getEmployees(String department) throws SQLException {
 
 		String sql = "{call read_employees_by_dept_name(?, ?)}";
@@ -122,6 +127,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 	}
 
+	@Override
 	public Employee getEmployee(String email) throws SQLException {
 
 		String sql = "{call read_employee_by_email(?,?)}";
@@ -144,6 +150,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 	}
 
+	@Override
 	public Employee getEmployee(int id) throws SQLException {
 
 		String sql = "{call read_employee_by_id(?,?)}";
@@ -166,6 +173,27 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 	}
 	
+	@Override
+	public byte[] getEmployeePassword(String email) throws SQLException {
+		
+		String sql = "select employee_password from employee "
+				+ "where employee_email = ?";
+		
+		try(Connection conn = cf.getConnection()) {
+			PreparedStatement p = conn.prepareStatement(sql);
+			p.setString(1, email);
+			
+			ResultSet rs = p.executeQuery();
+			
+			if(rs.next()) {
+				return rs.getBytes(1);
+			}
+		}
+		
+		return null;
+	}
+	
+	@Override
 	public void modifyEmployee(String email, Employee e) throws SQLException {
 
 		String sql = "{call update_employee_with_Email(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
@@ -193,6 +221,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	}
 
+	@Override
 	public void modifyEmployee(int id, Employee e) throws SQLException {
 		
 		String sql = "{call update_employee_with_id(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
@@ -220,6 +249,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	}
 
+	@Override
 	public void deleteEmployee(String email) throws SQLException {
 
 		String sql = "{call delete_employee_with_email(?)}";
@@ -233,6 +263,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	}
 
+	@Override
 	public void deleteEmployee(int id) throws SQLException {
 		
 		String sql = "{call delete_employee_with_id(?)}";

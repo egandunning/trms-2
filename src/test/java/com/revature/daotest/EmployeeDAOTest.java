@@ -53,7 +53,7 @@ public class EmployeeDAOTest {
 	@Test
 	public void test() throws SQLException {
 		List<Employee> emps = empDAO.getEmployees();
-		assertTrue("no emps found.", emps.size() == 1);
+		assertTrue("no emps found.", emps.size() > 0);
 		
 	}
 	
@@ -124,9 +124,35 @@ public class EmployeeDAOTest {
 		e2.setEmail("testEmp2@revature.com");
 		e2.setPassword(Hash.pbkdf2("password".toCharArray()));
 		e2.setTitle("sales associate");
-		empDAO.addEmployee(e2);
+		try {
+			empDAO.addEmployee(e2);
+		} catch(Exception ex) {
+			System.out.println("employee 2 already added");
+		}
 		assertTrue("Couldnt add employee",
 				empDAO.getEmployee("testEmp2@revature.com")
 				.getFirstname().equals("FnameTest2"));
+	}
+	
+	@Test
+	public void testDeleteById() throws SQLException {
+		e.setEmail("testEmail");
+		e.setSuperId(4);
+		empDAO.addEmployee(e);
+		e.setEmail("testEmp1@revature.com");
+		int id = empDAO.getEmployee("testEmail").getId();
+		empDAO.deleteEmployee(id);
+		assertTrue("couldnt delete employee", empDAO.getEmployee(id) == null);
+	}
+	
+	@Test
+	public void testDeleteByEmail() throws SQLException {
+		e.setEmail("testEmail");
+		e.setSuperId(4);
+		empDAO.addEmployee(e);
+		e.setEmail("testEmp1@revature.com");
+		assertTrue("couldn't add employee", empDAO.getEmployee("testEmail") != null);
+		empDAO.deleteEmployee("testEmail");
+		assertTrue("couldnt delete employee", empDAO.getEmployee("testEmail") == null);
 	}
 }

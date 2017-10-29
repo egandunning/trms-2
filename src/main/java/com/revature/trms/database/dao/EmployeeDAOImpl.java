@@ -29,7 +29,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			return;
 		}
 
-		String sql = "{call insert_employee(?,?,?,?,?,?,?,?,?,?,?,0,0)}";
+		String sql = "{call insert_employee(?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		
 		try(Connection conn = cf.getConnection()) {
 			CallableStatement call = conn.prepareCall(sql);
@@ -44,6 +44,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			call.setString(9, e.getEmail());
 			call.setBytes(10, e.getPassword());
 			call.setString(11, e.getTitle());
+			call.setInt(12, 0);
+			call.setInt(13, 0);
 			
 			call.executeUpdate();
 			LoggingService.getLogger().info(e.getFirstname() + 
@@ -56,10 +58,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		String sql = "{call read_all_employees(?)}";
 		
 		try(Connection conn = cf.getConnection()) {
+			
 			CallableStatement call = conn.prepareCall(sql);
-			
 			call.registerOutParameter(1, OracleTypes.CURSOR);
-			
 			call.executeQuery();
 			
 			ResultSet rs = (ResultSet)call.getObject(1);
@@ -67,66 +68,205 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			ArrayList<Employee> employees = new ArrayList<Employee>();
 			
 			while(rs.next()) {
-				Employee emp = new Employee();
-				emp.setFirstname(rs.getString("e.employee_firstname"));
-				emp.setLastname(rs.getString("e.employee_lastname"));
-				emp.setStreetAddress(rs.getString("address_street_address"));
-				emp.setCity(rs.getString("address_city"));
-				emp.setState(rs.getString("address_state"));
-				emp.setZip(rs.getString("address_zip"));
-				emp.setSuperId(rs.getInt("super.employee_id"));
-				emp.setSuperFirstname(rs.getString("super.employee_firstname"));
-				emp.setSuperLastname(rs.getString("super.employee_lastname"));
-				emp.setDepartment(rs.getString("department_name"));
-				emp.setDepartmentId(rs.getInt("department_id"));
-				emp.setEmail(rs.getString("e.employee_email"));
-				emp.setTitle(rs.getString("employee_title_name"));
+				Employee emp = employeeFromResultSet(rs);
 				employees.add(emp);
 			}
-			
 			return employees;
 		}
 
 	}
 
 	public List<Employee> getEmployees(int departmentId) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+
+		String sql = "{call read_employees_by_dept(?, ?)}";
+		
+		try(Connection conn = cf.getConnection()) {
+			
+			CallableStatement call = conn.prepareCall(sql);
+			call.setInt(1, departmentId);
+			call.registerOutParameter(2, OracleTypes.CURSOR);
+			call.executeQuery();
+			
+			ResultSet rs = (ResultSet)call.getObject(2);
+			
+			ArrayList<Employee> employees = new ArrayList<Employee>();
+			
+			while(rs.next()) {
+				Employee emp = employeeFromResultSet(rs);
+				employees.add(emp);
+			}
+			return employees;
+		}
 	}
 
 	public List<Employee> getEmployees(String department) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+
+		String sql = "{call read_employees_by_dept_name(?, ?)}";
+		
+		try(Connection conn = cf.getConnection()) {
+			
+			CallableStatement call = conn.prepareCall(sql);
+			call.setString(1, department);
+			call.registerOutParameter(2, OracleTypes.CURSOR);
+			call.executeQuery();
+			
+			ResultSet rs = (ResultSet)call.getObject(2);
+			
+			ArrayList<Employee> employees = new ArrayList<Employee>();
+			
+			while(rs.next()) {
+				Employee emp = employeeFromResultSet(rs);
+				employees.add(emp);
+			}
+			return employees;
+		}
 	}
 
 	public Employee getEmployee(String email) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+
+		String sql = "{call read_employee_by_email(?,?)}";
+		
+		try(Connection conn = cf.getConnection()) {
+			
+			CallableStatement call = conn.prepareCall(sql);
+			call.setString(1, email);
+			call.registerOutParameter(2, OracleTypes.CURSOR);
+			call.executeQuery();
+			
+			ResultSet rs = (ResultSet)call.getObject(2);
+			
+			Employee emp = null;
+			if(rs.next()) {
+				emp = employeeFromResultSet(rs);
+			}
+			
+			return emp;
+		}
 	}
 
 	public Employee getEmployee(int id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
+		String sql = "{call read_employee_by_id(?,?)}";
+		
+		try(Connection conn = cf.getConnection()) {
+			
+			CallableStatement call = conn.prepareCall(sql);
+			call.setInt(1, id);
+			call.registerOutParameter(2, OracleTypes.CURSOR);
+			call.executeQuery();
+			
+			ResultSet rs = (ResultSet)call.getObject(2);
+			
+			Employee emp = null;
+			if(rs.next()) {
+				emp = employeeFromResultSet(rs);
+			}
+			
+			return emp;
+		}
+	}
+	
 	public void modifyEmployee(String email, Employee e) throws SQLException {
-		// TODO Auto-generated method stub
+
+		String sql = "{call update_employee_with_Email(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		
+		try(Connection conn = cf.getConnection()) {
+			CallableStatement call = conn.prepareCall(sql);
+			call.setString(1, email);
+			call.setString(2, e.getFirstname());
+			call.setString(3, e.getLastname());
+			call.setString(4, e.getStreetAddress());
+			call.setString(5, e.getCity());
+			call.setString(6, e.getState());
+			call.setString(7, e.getZip());
+			call.setInt(8, e.getSuperId());
+			call.setInt(9, e.getDepartmentId());
+			call.setString(10, e.getEmail());
+			call.setBytes(11, e.getPassword());
+			call.setString(12, e.getTitle());
+			call.setInt(13, 0);
+			call.setInt(14, 0);
+			
+			call.executeUpdate();
+			LoggingService.getLogger().info("Employee with email " + email + " updated.");
+		}
 
 	}
 
 	public void modifyEmployee(int id, Employee e) throws SQLException {
-		// TODO Auto-generated method stub
+		
+		String sql = "{call update_employee_with_id(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		
+		try(Connection conn = cf.getConnection()) {
+			CallableStatement call = conn.prepareCall(sql);
+			call.setInt(1, id);
+			call.setString(2, e.getFirstname());
+			call.setString(3, e.getLastname());
+			call.setString(4, e.getStreetAddress());
+			call.setString(5, e.getCity());
+			call.setString(6, e.getState());
+			call.setString(7, e.getZip());
+			call.setInt(8, e.getSuperId());
+			call.setInt(9, e.getDepartmentId());
+			call.setString(10, e.getEmail());
+			call.setBytes(11, e.getPassword());
+			call.setString(12, e.getTitle());
+			call.setInt(13, 0);
+			call.setInt(14, 0);
+			
+			call.executeUpdate();
+			LoggingService.getLogger().info("Employee " + id + " updated.");
+		}
 
 	}
 
 	public void deleteEmployee(String email) throws SQLException {
-		// TODO Auto-generated method stub
+
+		String sql = "{call delete_employee_with_email(?)}";
+		
+		try (Connection conn = cf.getConnection()){
+			CallableStatement call = conn.prepareCall(sql);
+			call.setString(1, email);
+			call.executeUpdate();
+			LoggingService.getLogger().info("Deleted employee with email " + email);
+		}
 
 	}
 
 	public void deleteEmployee(int id) throws SQLException {
-		// TODO Auto-generated method stub
+		
+		String sql = "{call delete_employee_with_id(?)}";
+		
+		try (Connection conn = cf.getConnection()){
+			CallableStatement call = conn.prepareCall(sql);
+			call.setInt(1, id);
+			call.executeUpdate();
+			LoggingService.getLogger().info("Deleted employee " + id);
+		}
 
 	}
 
+	/**
+	 * Get an employee object from a result set.
+	 * @param rs The result set returned from a stored procedure.
+	 * @return Employee object
+	 * @throws SQLException
+	 */
+	private Employee employeeFromResultSet(ResultSet rs) throws SQLException {
+		Employee emp = new Employee();
+		emp.setFirstname(rs.getString(2));
+		emp.setLastname(rs.getString(3));
+		emp.setStreetAddress(rs.getString("address_street_address"));
+		emp.setCity(rs.getString("address_city"));
+		emp.setState(rs.getString("address_state"));
+		emp.setZip(rs.getString("address_zip"));
+		emp.setSuperId(rs.getInt(8));
+		emp.setSuperFirstname(rs.getString(9));
+		emp.setSuperLastname(rs.getString(10));
+		emp.setDepartment(rs.getString(11));
+		emp.setDepartmentId(rs.getInt(12));
+		emp.setEmail(rs.getString(13));
+		emp.setTitle(rs.getString("employee_title_name"));
+		return emp;
+	}
 }

@@ -22,7 +22,8 @@ public class ConnectionFactory {
 
 		try {
 			Properties prop = new Properties();
-			prop.load(new FileReader("database.properties"));
+			prop.load(this.getClass().getClassLoader().getResourceAsStream("database.properties"));
+			//prop.load(new FileReader("database.properties"));
 			connection = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("usr"),
 					prop.getProperty("pwd"));
 		} catch (IOException e) {

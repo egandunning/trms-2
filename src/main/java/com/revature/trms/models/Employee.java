@@ -9,6 +9,7 @@ public class Employee {
 	private String state;
 	private String zip;
 	private int superId;
+	private int id;
 	private String superFirstname;
 	private String superLastname;
 	private int departmentId;
@@ -131,5 +132,13 @@ public class Employee {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

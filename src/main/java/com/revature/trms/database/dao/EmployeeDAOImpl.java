@@ -254,6 +254,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	 */
 	private Employee employeeFromResultSet(ResultSet rs) throws SQLException {
 		Employee emp = new Employee();
+		emp.setId(rs.getInt(1));
 		emp.setFirstname(rs.getString(2));
 		emp.setLastname(rs.getString(3));
 		emp.setStreetAddress(rs.getString("address_street_address"));

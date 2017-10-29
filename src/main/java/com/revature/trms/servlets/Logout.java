@@ -31,6 +31,7 @@ public class Logout extends HttpServlet {
 			//response.sendRedirect("");//redirect to login page
 		} else {
 			session.invalidate();
+			//response.sendRedirect("");//redirect to logged out page
 		}
 	}
 

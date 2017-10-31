@@ -20,12 +20,12 @@ public class FileUploader {
 	 * @param filePart
 	 * @return
 	 */
-	public static boolean upload(Part filePart) {
+	public static boolean upload(Part filePart, int requestId) {
 		String filename = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 		
 		try {
 			//TODO: use the real AttachmentDAO, finish implementation
-			//AttachmentDAO.add(filename,path)
+			//AttachmentDAO.add(filename,requestId,path)
 			
 			//Save file on server.
 			filePart.write(filename);

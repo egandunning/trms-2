@@ -7,6 +7,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import com.revature.logging.LoggingService;
@@ -29,10 +30,22 @@ public class Upload extends HttpServlet {
 		
 		LoggingService.getLogger().trace("Upload.doGet");
 		
-		//TODO: redirect if session is invalid
+		HttpSession currentSession = request.getSession(false);
+		
+		if(currentSession == null) {
+			//TODO: redirect if session is invalid
+		}
+		
+		int requestId = -1;
+		
+		//TODO: get request ID
+		
+		if(requestId == -1) {
+			//TODO: redirect if no request was selected
+		}
 		
 		Part filePart = request.getPart("file");
-		if(FileUploader.upload(filePart)) {
+		if(FileUploader.upload(filePart, requestId)) {
 			//TODO: success msg
 		} else {
 			//TODO: failure msg

@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Employee Reimbursement Form</title>
+<link href="/Users/ZOE/Documents/REVATURE/Project 1 TRMS/EmployeeRForm/style.css" rel="stylesheet" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+<form id="Employee_RF" name="Employee_Reimbursement" method="post">
+<table >
+  <tbody>
+   
+    <tr>
+      <th colspan="2" class="head" scope="col"><tablehead>Employee Tuition Reimbursemount Form</tablehead></th>
+    </tr>
+    
+    <tr >
+     
+      <td><tablebold> First Name</tablebold></td>
+      <td>
+      <input type="text" name="First Name" id="f_name" form="Employee_Reimbursement">
+      <tabletext>&nbsp;</tabletext></td>
+       
+    </tr>
+    <tr>
+      <td><tablebold>Last Name</tablebold> </td>
+      <td>
+      <input type="text" name="Last name" id="l_name" form="Employee_Reimbursement">
+      <tabletext>&nbsp;</tabletext></td>
+    </tr>
+    
+    <tr>
+      <td><tablebold>Date</tablebold> </td>
+      <td>
+      <input type="date" name="Date" id="date" form="Employee_Reimbursement">
+      <tabletext>&nbsp;</tabletext></td>
+    </tr>
+      <tr>
+      <td><tablebold>Time</tablebold> </td>
+      <td>
+      <input type="time" name="Time" id="time" form="Employee_Reimbursement">
+      <tabletext>&nbsp;</tabletext></td>
+    </tr>
+     <tr>
+      <td><tablebold>Location</tablebold> </td>
+      <td>
+      <input type="text" name="Location" id="location" form="Employee_Reimbursement">
+      <tabletext>&nbsp;</tabletext></td>
+    </tr>
+    
+
+    
+    <tr>
+      <td><tablebold>Description</tablebold> </td>
+      <td>
+      <input type="number" name="Description" id="description" form="Employee_Reimbursement">
+      <tabletext>&nbsp;</tabletext></td>
+    </tr>
+    <tr >
+      <td><tablebold>Cost</tablebold></td>
+      <td>
+      <input type="number" name="Cost" id="cost" form="Employee_Reimbursement">
+      <tabletext>&nbsp;</tabletext></td>
+    </tr>
+    <tr>
+      <td><tablebold>Grading Format</tablebold> </td>
+      <td>
+      <input type="text" name="Grading Format" id="grading_format" form="Employee_Reimbursement">
+      <tabletext>&nbsp;</tabletext></td>
+    </tr>
+    <tr >
+      <td><tablebold> Type Of Event</tablebold></td>
+      <td>
+      <input type="text" name="Type Of Event" id="event_type" form="Employee_Reimbursement">
+      <tabletext>&nbsp;</tabletext></td>
+    </tr>
+    
+
+       <tr>
+      <td><tablebold> Additional Comments</tablebold> </td>
+      <td>
+      <input type="text" name="COMMENTS" id="COMMENTS" form="Employee_Reimbursement">
+      <tabletext>&nbsp;</tabletext></td>
+    </tr>
+      
+
+
+        <tr>
+      <td><tablebold>Attachments </tablebold> </td>
+      <td>
+        <script>
+function attachmentfunction() {
+    var x = document.createElement("INPUT");
+    x.setAttribute("type", "file");
+    document.body.appendChild(x);
+}
+</script>
+      <button onclick="attachmentfunction()">Click to Upload a file</button>
+
+      <tabletext>&nbsp;</tabletext></td>
+    </tr>
+      <tr >
+      <th colspan="2" scope="col"> <input type="submit" ID="SUBMIT" form="Employee_Reimbursement"></th>
+    </tr>
+    
+  </tbody>
+ 
+</table>
+</form>
+</body>
+</html>

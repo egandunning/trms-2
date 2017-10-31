@@ -1,8 +1,6 @@
 package com.revature.trms.servlets;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -11,6 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import com.revature.logging.LoggingService;
+import com.revature.trms.util.FileUploader;
+
+/**
+ * Uploads a file to the web server. The file is stored in
+ * [path to Eclipse workspace]\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\work\Catalina\localhost\TRMS
+ * @author Egan Dunning
+ *
+ */
 @MultipartConfig
 public class Upload extends HttpServlet {
 
@@ -20,22 +27,15 @@ public class Upload extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		
-		System.out.println("INSIDE /Upload");
-		System.out.println("test getting param : " + request.getParameter("test"));
+		LoggingService.getLogger().trace("Upload.doGet");
+		
+		//TODO: redirect if session is invalid
 		
 		Part filePart = request.getPart("file");
-		//String path = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-		//String content = filePart.getInputStream().toString();
-		
-		filePart.write("newFile.txt");
-		
-		
-		//System.out.println("Filename: " + path);
-		//System.out.println("data: " + content);
-		if(request.getSession(false) == null) {
-			//TODO: send redirect
-			//response.sendRedirect("");//redirect to login page
-			return;
+		if(FileUploader.upload(filePart)) {
+			//TODO: success msg
+		} else {
+			//TODO: failure msg
 		}
 		
 		

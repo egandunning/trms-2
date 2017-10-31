@@ -60,6 +60,15 @@ public interface EmployeeDAO {
 	public Employee getEmployee(int id) throws SQLException;
 	
 	/**
+	 * Get the password of a user with the specified email address. Used
+	 * for verifying passwords.
+	 * @param email The email of the employee.
+	 * @return The hashed password of the specified user.
+	 * @throws SQLException
+	 */
+	public byte[] getEmployeePassword(String email) throws SQLException;
+	
+	/**
 	 * Update an employee with the given email.
 	 * @param email The existing employee to update.
 	 * @param e The new employee data.

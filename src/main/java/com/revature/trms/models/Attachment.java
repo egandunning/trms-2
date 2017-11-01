@@ -1,12 +1,12 @@
 package com.revature.trms.models;
 
-public class Attatchment {
+public class Attachment {
 
 	private int id;
 	private String filename;
 	private byte[] data;
 	
-	public Attatchment() {
+	public Attachment() {
 		super();
 	}
 

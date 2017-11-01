@@ -4,7 +4,8 @@ public class Attachment {
 
 	private int id;
 	private String filename;
-	private byte[] data;
+	private String directory;
+	private String approvalType;
 	
 	public Attachment() {
 		super();
@@ -26,12 +27,19 @@ public class Attachment {
 		this.filename = filename;
 	}
 
-	public byte[] getData() {
-		return data;
+	public String getDirectory() {
+		return directory;
 	}
 
-	public void setData(byte[] data) {
-		this.data = data;
+	public void setDirectory(String directory) {
+		this.directory = directory;
 	}
-	
+
+	public String getApprovalType() {
+		return approvalType;
+	}
+
+	public void setApprovalType(String approvalType) {
+		this.approvalType = approvalType;
+	}
 }

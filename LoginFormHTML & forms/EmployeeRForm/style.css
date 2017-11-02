@@ -1,0 +1,54 @@
+﻿@charset "UTF-8";
+/* CSS Document */
+
+tablehead{
+	font-family:"Trebuchet MS",Helvetica, sans-serif;
+	font-size:14px;
+	line-height:18px;
+	font-weight:bold;
+	color:#FFF;
+	text-transfrom:capitalize;
+	
+	
+}
+
+tablebold
+{
+	font-family:"Trebuchet MS",Helvetica, sans-serif;
+	font-size:11px;
+	line-height:16px;
+	font-weight:bold;
+	color:#333;
+	
+
+	
+}
+tabletext{
+	
+	font-family:"Trebuchet MS",Helvetica, sans-serif;
+	font-size:11px;
+	line-height:16px;
+	font-weight:normal;
+	color:#333;
+	
+	
+	
+}
+table{
+	width:100%;
+	padding:10px;
+	height:500px;
+	border-collapse: collapse;
+	
+	
+	
+	
+	
+}
+tr:nth-child(even){background-color: #f2f2f2}
+
+
+.head {
+	background-color: #000000;
+	
+}

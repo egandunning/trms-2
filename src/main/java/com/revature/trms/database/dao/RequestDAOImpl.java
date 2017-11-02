@@ -26,7 +26,34 @@ public class RequestDAOImpl implements RequestDAO{
 	@Override
 	public void addRequest(Request r) throws SQLException {
 		// TODO Auto-generated method stub
+
+		if(r == null) {
+			LoggingService.getLogger().debug("empty employee passed to "
+					+ "EmployeeDAOImpl.addEmployee()");
+			return;
+		}
+
+		String sql = "{call insert_request(?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		
+		try(Connection conn = cf.getConnection()) {
+			CallableStatement call = conn.prepareCall(sql);
+			
+			call.setInt(1, r.getEmployeeId());
+			call.setDouble(2, r.getCost());
+			call.setString(3, r.getStreetAddress());
+			call.setString(4, r.getCity());
+			call.setString(5, r.getState());
+			call.setString(6, r.getZip());
+			call.setString(7, r.getDescription());
+			call.setInt(8, r.getEventType());
+			call.setInt(9, r.getGradingFormat());
+			call.setInt(10, r.getDaysMissed());
+			call.setString(11, r.getJustification());
+			
+			call.executeUpdate();
+			LoggingService.getLogger().info("Employee " + r.getEmployeeId() + 
+					" request for " + r.getCost() + " added to requests");
+		}
 	}
 
 	@Override
@@ -55,8 +82,27 @@ public class RequestDAOImpl implements RequestDAO{
 
 	@Override
 	public List<Request> getRequests(int employeeId) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+
+		String sql = "{call read_requests_by_employee(?)}";
+		
+		try(Connection conn = cf.getConnection()) {
+			
+			CallableStatement call = conn.prepareCall(sql);
+			call.setInt(1, employeeId);
+			call.registerOutParameter(1, OracleTypes.CURSOR);
+			call.executeQuery();
+			
+			ResultSet rs = (ResultSet)call.getObject(1);
+			
+			ArrayList<Request> requests = new ArrayList<Request>();
+			
+			while(rs.next()) {
+				Request req = requestFromResultSet(rs);
+				requests.add(req);
+			}
+			return requests;
+		}
+		
 	}
 
 	@Override

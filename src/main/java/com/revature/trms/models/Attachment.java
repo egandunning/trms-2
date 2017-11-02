@@ -6,6 +6,7 @@ public class Attachment {
 	private String filename;
 	private String directory;
 	private String approvalType;
+	private int requestId;
 	
 	public Attachment() {
 		super();
@@ -42,4 +43,13 @@ public class Attachment {
 	public void setApprovalType(String approvalType) {
 		this.approvalType = approvalType;
 	}
+
+	public int getRequestId() {
+		return requestId;
+	}
+
+	public void setRequestId(int requestId) {
+		this.requestId = requestId;
+	}
+	
 }

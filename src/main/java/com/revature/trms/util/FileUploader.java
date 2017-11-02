@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import javax.servlet.http.Part;
 
 import com.revature.logging.LoggingService;
+import com.revature.trms.database.dao.AttachmentDAO;
+import com.revature.trms.database.dao.AttachmentDAOImpl;
+import com.revature.trms.models.Attachment;
 
 /**
  * A class to handle file uploads.
@@ -23,17 +26,28 @@ public class FileUploader {
 	public static boolean upload(Part filePart, int requestId) {
 		String filename = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 		
+		System.out.println("file to upload: " + filename);
+		
+		AttachmentDAO dao = new AttachmentDAOImpl();
+		
+		Attachment attachment = new Attachment();
+		attachment.setFilename(filename);
+		attachment.setDirectory("test");
+		attachment.setApprovalType("pending");
+		attachment.setRequestId(requestId);
+		
 		try {
-			//TODO: use the real AttachmentDAO, finish implementation
-			//AttachmentDAO.add(filename,requestId,path)
+			dao.addAttachment(attachment);
 			
 			//Save file on server.
 			filePart.write(filename);
 			throw new SQLException();
 			//return true;
 		} catch (SQLException e) {
+			System.out.println("Error saving file info in database.");
 			LoggingService.getLogger().warn("Error saving file info in database.", e);
 		} catch (IOException e) {
+			System.out.println("Error saving file info in database.");
 			LoggingService.getLogger().warn("Error saving file on server.", e);
 			try {
 				//AttachmentDAO.delete(filename);

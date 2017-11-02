@@ -1,6 +1,7 @@
 package com.revature.trms.servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -33,26 +34,49 @@ public class Upload extends HttpServlet {
 		HttpSession currentSession = request.getSession(false);
 		
 		if(currentSession == null) {
-			//TODO: redirect if session is invalid
+			System.out.println("No session... Redirecting.");
+			response.setStatus(300);
+			response.setHeader("Location", "login.html");
+			return;
 		}
 		
+		//TODO: handle the alert message, set message to empty
+		
+		//Get tuition reimbursement request id
 		int requestId = -1;
 		
-		//TODO: get request ID
-		
-		if(requestId == -1) {
-			//TODO: redirect if no request was selected
+		try {
+			requestId = Integer.parseInt(request.getParameter("requestId"));
+		} catch (NumberFormatException e) {
+			LoggingService.getLogger().warn("No requestId parameter sent to"
+					+ " Upload.doPost.", e);
+			currentSession.setAttribute("alert", "Choose a request first.");
+			response.setStatus(300);
+			response.setHeader("Location", "upload.html");
+			PrintWriter out = response.getWriter();
+			out.write("{\"alert\" : \"Invalid tuition reimbursement request\"}");
+			return;
 		}
 		
+		//Redirect if no request found
+		if(requestId == -1) {
+			currentSession.setAttribute("alert", "Choose a request first.");
+			response.setStatus(300);
+			response.setHeader("Location", "upload.html");
+			PrintWriter out = response.getWriter();
+			out.write("{\"alert\" : \"Choose a request first.\"}");
+		}
+		
+		//Upload file
 		Part filePart = request.getPart("file");
 		if(FileUploader.upload(filePart, requestId)) {
-			//TODO: success msg
+			currentSession.setAttribute("alert", "Successfully uploaded attachment.");
+			PrintWriter out = response.getWriter();
+			out.write("{\"alert\" : \"Successfully uploaded attachment.\"}");
 		} else {
-			//TODO: failure msg
+			currentSession.setAttribute("alert", "Failed to upload attachment.");
+			PrintWriter out = response.getWriter();
+			out.write("{\"alert\" : \"Failed to upload attachment.\"}");
 		}
-		
-		
-		
 	}
-
 }

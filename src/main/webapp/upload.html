@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Upload file test</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<!-- enctype="multipart/form-data" -->
+  <form id="fileUpload" action="Upload" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="test" id="test" value="success"/>
+    <input type="file" name="file" id="file"/>
+    <input type="submit" id="submit" value="Upload"/>
+  </form>
+  <script type="text/javascript" src="upload.js"></script>
+</body>
+</html>

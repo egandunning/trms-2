@@ -39,4 +39,8 @@
     <servlet-name>Upload</servlet-name>
     <url-pattern>/Upload</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>Employee</servlet-name>
+    <servlet-class>com.revature.trms.servlets.EmployeeServlet</servlet-class>
+  </servlet>
 </web-app>

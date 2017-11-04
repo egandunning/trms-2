@@ -10,7 +10,7 @@ employee.zip="12343"
 employee.superId=4
 employee.departmentId=0
 employee.email="egan@website.com"
-employee.password="pass"
+employee.plainPassword="pass"
 employee.title="sales lead"
 
 /**

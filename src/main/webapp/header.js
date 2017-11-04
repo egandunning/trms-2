@@ -1,7 +1,6 @@
 "use strict";
 
 //Populate header with buttons and register event listeners.
-
 var header = document.getElementsByTagName("header")[0];
 
 header.innerHTML = '<button id="headerInfoButton">User Info</button>' +

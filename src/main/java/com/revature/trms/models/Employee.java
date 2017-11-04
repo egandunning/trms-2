@@ -16,6 +16,7 @@ public class Employee {
 	private String department;
 	private String email;
 	private byte[] password;
+	private String plainPassword;
 	private String title;
 	
 	public Employee() {
@@ -140,5 +141,13 @@ public class Employee {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getPlainPassword() {
+		return plainPassword;
+	}
+
+	public void setPlainPassword(String plainPassword) {
+		this.plainPassword = plainPassword;
 	}
 }

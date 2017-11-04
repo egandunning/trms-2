@@ -4,9 +4,17 @@
 <meta charset="ISO-8859-1">
 <title>Upload file test</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="materialStyles.css">
+
+<!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+
 </head>
 <body>
+
+<div class="container">
+
   <form id="fileUpload" action="Upload" method="post" enctype="multipart/form-data">
     <input type="hidden" name="test" id="test" value="success"/>
     <input type="file" name="file" id="file"/>
@@ -18,8 +26,13 @@
   <script type="text/javascript" src="styling.js"></script>
 
   <a href="1textdoc.txt">click</a>
+  
+</div>
 
-  <script type="text/javascript" src="upload.js"></script>
-  <script type="text/javascript" src="employees.js"></script>
+  <script type="text/javascript" src="js/upload.js"></script>
+  <script type="text/javascript" src="js/employees.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.js"></script>
+  <script type="text/javascript" src="js/materialize.js"></script>
+  
 </body>
 </html>

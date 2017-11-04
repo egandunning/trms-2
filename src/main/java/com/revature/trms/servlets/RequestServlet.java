@@ -3,6 +3,8 @@ package com.revature.trms.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import com.revature.trms.database.dao.RequestDAO;
 import com.revature.trms.database.dao.RequestDAOImpl;
+import com.revature.trms.models.Request;
 
 /**
  * Servlet implementation class RequestServlet
@@ -38,8 +41,17 @@ public class RequestServlet extends HttpServlet {
 		PrintWriter pw = response.getWriter();
 		RequestDAO dao = new RequestDAOImpl();
 		
+		ArrayList<List<Request>> allRequests = new ArrayList<>();
+		
+		List<Request> myRequests = null;
+		List<Request> subOrdinateRequests = null;
+		
+		
 		try {
-			dao.getRequests((Integer)(currentSession.getAttribute("employeeId")));
+			myRequests = dao.getRequests((Integer)(currentSession.getAttribute("employeeId")));
+			allRequests.add(0, myRequests);
+			
+			
 		} catch (SQLException e) {
 			System.out.println("SQL error.");
 			e.printStackTrace();

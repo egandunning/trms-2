@@ -31,9 +31,12 @@ public class Login extends HttpServlet {
 		if(empId != -1) {
 			pw.write("Successful login\n");
 			pw.write("Employee ID: " + request.getSession().getAttribute("employeeId"));
+			response.setStatus(300);
+			response.setHeader("Location", "index.html");
 		} else {
-			pw.write("Failed to login");
+			pw.write("{\"alert\": \"Failed to login.\"}");
+			response.setStatus(300);
+			response.setHeader("Location", "login.html");
 		}
 	}
-
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import com.revature.trms.models.Request;
 
 /**
- * Data access object for employees
+ * Data access object for requests
  * @author Ryan Hirsch
  *
  */

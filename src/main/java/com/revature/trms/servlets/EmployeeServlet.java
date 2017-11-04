@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.crypto.Hash;
 import com.revature.logging.LoggingService;
 import com.revature.trms.database.dao.EmployeeDAOImpl;
 import com.revature.trms.models.Employee;
@@ -55,6 +56,10 @@ public class EmployeeServlet extends HttpServlet {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		Employee emp = mapper.readValue(request.getParameter("employee"), Employee.class);
+		
+		//hash pass
+		emp.setPassword(Hash.pbkdf2(emp.getPlainPassword().toCharArray()));
+		
 		try {
 			new EmployeeDAOImpl().addEmployee(emp);
 			response.getWriter().write("{\"info\" : \"Registration complete.\"}");

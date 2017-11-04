@@ -32,6 +32,7 @@ public class AuthorizeEmployee {
 		}
 		
 		boolean validUser = login(email, password);
+		System.out.println("ValidUser: " + validUser);
 		if(validUser) {
 			request.getSession(true);
 			try {
@@ -42,11 +43,13 @@ public class AuthorizeEmployee {
 				return id;
 				
 			} catch (SQLException e) {
+				e.printStackTrace();
 				LoggingService.getLogger().warn("Exception getting employee "
 						+ "id in AuthorizeEmployee.login(HttpServletRequest)",
 						e);
 				
 			} catch (NullPointerException e) {
+				e.printStackTrace();
 				LoggingService.getLogger().warn("Couldn't find employee "
 						+ "with email " + email, e);
 			}
@@ -62,8 +65,9 @@ public class AuthorizeEmployee {
 		byte[] storedPass = null;
 		try {
 			storedPass = dao.getEmployeePassword(email);
-
+			
 			if(Arrays.equals(storedPass, Hash.pbkdf2(password))) {
+				System.out.println("Password verified.");
 				//zero out password
 				for(int i = 0; i < password.length; i++) {
 					password[i] = 0;
@@ -72,6 +76,7 @@ public class AuthorizeEmployee {
 				return true;
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			LoggingService.getLogger().warn("Exception in AuthorizeEmployee.login()", e);
 		} finally {
 			//zero out char array

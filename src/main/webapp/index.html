@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>TRMS</title>
+<link rel="stylesheet" type="text/css" href="materialStyles.css">
+</head>
+<body>
+<header>
+	<button>User Info</button>
+	<button>My Balance</button>
+	<button>Log Out</button>
+	
+	<a href="view.html">View Requests</a>
+</header>
+
+<div>
+	<form>
+  		<fieldset>
+    	<legend>Course Logistics</legend>
+   			Name of Course:<br>
+    		<input type="text" name="name" value="Required"><br>
+    		Date:<br>
+    		<input type="date" name="courseTime" value="Required"><br>
+    		Cost:<br>
+    		<input type="text" name="cost" value="Required"><br>
+    		Course Description:<br>
+    		<input type="text" name="desc" value="Optional"><br>
+  		</fieldset>
+  		<fieldset>
+    	<legend>Address</legend>
+   			Street Address:<br>
+    		<input type="text" name="streetAddress" value="Required"><br>
+   			City:<br>
+    		<input type="text" name="city" value="Required"><br>
+    		State:<br>
+    		<input type="text" name="state" value="Required"><br>
+    		Zip Code:<br>
+    		<input type="text" name="zip" value="Required"><br>
+  		</fieldset>
+  		<fieldset>
+    	<legend>Course Format</legend>
+   			Type of Course:<br>
+    		<input type="number" name="eventType" value="Required"><br>
+   			Grading Format:<br>
+    		<input type="number" name="gradingFormat" value="Required"><br>
+    		Time Off Required:<br>
+    		<input type="number" name="daysMissed" value="Required"><br>
+    		Justification:<br>
+    		<input type="text" name="justification" value="Required"><br>
+  		</fieldset>
+  		<fieldset>
+    	<legend>Attachments</legend>
+   			Previous Approval:<br>
+    		<input type="file" name="approval" value="Optional"><br>
+  		</fieldset>
+  		<input type="submit" value="Submit">
+	</form>
+</div>
+
+
+ <script type="text/javascript" src="styling.js"></script>
+ <footer></footer>
+</body>
+</html>

@@ -6,7 +6,7 @@ var header = document.getElementsByTagName("header")[0];
 header.innerHTML = '<button id="headerInfoButton">User Info</button>' +
 	'<button id="headerBalanceButton">My Balance</button>' +
 	'<button id="headerLogoutButton">Log Out</button>' +
-	'<button id="headerViewRequestButton">View Requests</button>';
+	'<button id="headerViewRequestButton">View Requests</button><hr>';
 
 //Go to user info page 
 document.getElementById("headerInfoButton").addEventListener("click", function() {

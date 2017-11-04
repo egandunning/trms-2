@@ -113,14 +113,57 @@ public class RequestDAOImpl implements RequestDAO{
 
 	@Override
 	public void modifyRequest(int id, Request r) throws SQLException {
-		// TODO Auto-generated method stub
+
+		String sql = "{call update_request(?,?,?,?,?,?,?,?,?,?,?)}";
 		
+		try(Connection conn = cf.getConnection()) {
+			CallableStatement call = conn.prepareCall(sql);
+			call.setInt(1, r.getId());
+			call.setDouble(2, r.getCost());
+			call.setString(3, r.getStreetAddress());
+			call.setString(4, r.getCity());
+			call.setString(5, r.getState());
+			call.setString(6, r.getZip());
+			call.setString(7, r.getDescription());
+			call.setInt(8, r.getEventType());
+			call.setInt(9, r.getGradingFormat());
+			call.setInt(10, r.getDaysMissed());
+			call.setString(11, r.getJustification());
+			
+			call.executeUpdate();
+			LoggingService.getLogger().info("Request " + r.getId() + " ($" + r.getCost() + ") updated");
+		}
+
+	}
+	
+	@Override
+	public void modifyRequestStatus(int id, int s) throws SQLException {
+
+		String sql = "{call update_request_status(?,?)}";
+		
+		try(Connection conn = cf.getConnection()) {
+			CallableStatement call = conn.prepareCall(sql);
+			
+			call.setInt(2, s);
+			
+			call.executeUpdate();
+			LoggingService.getLogger().info("Request " + id + " status updated to " + s);
+		}
+
 	}
 
 	@Override
 	public void deleteRequest(int id) throws SQLException {
-		// TODO Auto-generated method stub
 		
+		String sql = "{call delete_request_with_id(?)}";
+		
+		try (Connection conn = cf.getConnection()){
+			CallableStatement call = conn.prepareCall(sql);
+			call.setInt(1, id);
+			call.executeUpdate();
+			LoggingService.getLogger().info("Deleted request " + id);
+		}
+
 	}
 	
 	private Request requestFromResultSet(ResultSet rs) throws SQLException {

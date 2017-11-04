@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.revature.trms.auth.AuthorizeEmployee;
+import com.revature.trms.database.dao.EmployeeDAOImpl;
 
 /**
  * Servlet implementation class Login
@@ -26,11 +27,18 @@ public class Login extends HttpServlet {
     	
 		int empId = auth.login(request);
 		
+		String firstname = "user";
+		
+		try {
+			firstname = new EmployeeDAOImpl().getEmployee(empId).getFirstname();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		PrintWriter pw = response.getWriter();
 		
 		if(empId != -1) {
-			pw.write("Successful login\n");
-			pw.write("Employee ID: " + request.getSession().getAttribute("employeeId"));
+			pw.write("{\"firstname\": \""+ firstname +"\"}");
 			response.setStatus(300);
 			response.setHeader("Location", "index.html");
 		} else {

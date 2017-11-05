@@ -107,8 +107,25 @@ public class RequestDAOImpl implements RequestDAO{
 
 	@Override
 	public Request getRequest(int id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+
+		String sql = "{call read_request_by_id(?,?)}";
+		
+		try(Connection conn = cf.getConnection()) {
+			
+			CallableStatement call = conn.prepareCall(sql);
+			call.setInt(1, id);
+			call.registerOutParameter(2, OracleTypes.CURSOR);
+			call.executeQuery();
+			
+			ResultSet rs = (ResultSet)call.getObject(2);
+			
+			Request req = null;
+			if(rs.next()) {
+				req = requestFromResultSet(rs);
+			}
+			
+			return req;
+		}
 	}
 
 	@Override
@@ -183,5 +200,7 @@ public class RequestDAOImpl implements RequestDAO{
 		req.setJustification(rs.getString(13));
 		return req;
 	}
+	
+	
 
 }

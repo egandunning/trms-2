@@ -97,4 +97,6 @@ public interface EmployeeDAO {
 	 * @throws SQLException
 	 */
 	public void deleteEmployee(int id) throws SQLException;
+
+	int availableFunds(Employee emp);
 }

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,14 +30,17 @@ public class EmployeeServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		System.out.println("in employee doGet");
+		
 		int empId = 0;
 		
 		Employee emp = null;
 		
 		try {
-			empId = Integer.parseInt(request.getParameter("employeeId"));
+			//empId = Integer.parseInt(request.getParameter("employeeId"));
+			empId = (Integer)request.getSession().getAttribute("employeeId");
 			emp = new EmployeeDAOImpl().getEmployee(empId);
-		} catch (NumberFormatException e) {
+		} catch (IllegalStateException e) {
 			LoggingService.getLogger().warn("invalid employee id.", e);
 			response.getWriter().write("{\"alert\" : \"Invalid employee id\"}");
 			return;
@@ -47,7 +51,13 @@ public class EmployeeServlet extends HttpServlet {
 		}
 		
 		ObjectMapper mapper = new ObjectMapper();
-		response.getWriter().write(mapper.writeValueAsString(emp));
+		String data = mapper.writeValueAsString(emp);
+		
+		System.out.println("data: " + data);
+		
+		response.setStatus(300);
+		response.setHeader("Location", "employee.html");
+		response.setHeader("Set-Cookie", data);
 	}
 
 	/**
@@ -90,7 +100,6 @@ public class EmployeeServlet extends HttpServlet {
 		
 		int empId = 0;
 		
-		
 		//check employee id associated with session
 		try {
 			empId = Integer.parseInt(currentSession.getAttribute("employeeId").toString());
@@ -103,7 +112,10 @@ public class EmployeeServlet extends HttpServlet {
 		
 		//get employee json object
 		ObjectMapper mapper = new ObjectMapper();
-		Employee emp = mapper.readValue(request.getParameter("employee"), Employee.class);
+		
+		String employeeString = request.getParameter("employee");
+		System.out.println("Employee: " + employeeString);
+		Employee emp = mapper.readValue(employeeString, Employee.class);
 		
 		//attempt to modify employee
 		try {

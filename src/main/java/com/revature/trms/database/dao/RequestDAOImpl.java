@@ -78,6 +78,8 @@ public class RequestDAOImpl implements RequestDAO{
 		}
 		
 	}
+	
+	
 
 	@Override
 	public List<Request> getRequests(int employeeId) throws SQLException {
@@ -113,6 +115,30 @@ public class RequestDAOImpl implements RequestDAO{
 			
 			CallableStatement call = conn.prepareCall(sql);
 			call.setInt(1, employeeId);
+			call.registerOutParameter(1, OracleTypes.CURSOR);
+			call.executeQuery();
+			
+			ResultSet rs = (ResultSet)call.getObject(1);
+			
+			ArrayList<Request> requests = new ArrayList<Request>();
+			
+			while(rs.next()) {
+				Request req = requestFromResultSet(rs);
+				requests.add(req);
+			}
+			return requests;
+		}
+	}
+	
+	@Override
+	public List<Request> getDepartmentRequests(int departmentId) throws SQLException {
+		
+		String sql = "{call read_sub_requests_by_department(?)}";
+		
+		try(Connection conn = cf.getConnection()) {
+			
+			CallableStatement call = conn.prepareCall(sql);
+			call.setInt(1, departmentId);
 			call.registerOutParameter(1, OracleTypes.CURSOR);
 			call.executeQuery();
 			

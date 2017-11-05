@@ -67,4 +67,6 @@ public interface RequestDAO {
 	public void deleteRequest(int id) throws SQLException;
 
 	public void modifyRequestStatus(int id, int s) throws SQLException;
+
+	List<Request> getDepartmentRequests(int departmentId) throws SQLException;
 }

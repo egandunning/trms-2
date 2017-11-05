@@ -3,11 +3,10 @@
 //Populate header with buttons and register event listeners.
 var header = document.getElementsByTagName("header")[0];
 
-header.innerHTML = '<button id="headerInfoButton">User Info</button>' +
-	'<button id="headerBalanceButton">My Balance</button>' +
-	'<span style="float:left"><form action="Logout" method="POST">' +
-	'<button type="submit" id="headerLogoutButton">Logout</button></form></span>' +
-	'<button id="headerViewRequestButton">View Requests</button><hr>';
+header.innerHTML = '<button id="headerInfoButton" class="btn waves-effect waves-light">User Info</button>' +
+	'<button id="headerBalanceButton" class="btn waves-effect waves-light">My Balance</button>' +
+	'<span style="float:left"><form action="Logout" method="POST"><button id="headerLogoutButton" class="btn waves-effect waves-light">Log Out</button></form></span>' +
+	'<button id="headerViewRequestButton" class="btn waves-effect waves-light">View Requests</button><hr>';
 
 //Go to user info page 
 document.getElementById("headerInfoButton").addEventListener("click", function() {

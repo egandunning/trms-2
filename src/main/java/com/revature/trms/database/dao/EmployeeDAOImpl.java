@@ -276,6 +276,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 
 	}
+	
+	@Override
+	public int availableFunds(Employee emp)
+	{
+		
+	}
 
 	/**
 	 * Get an employee object from a result set.

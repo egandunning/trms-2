@@ -38,6 +38,8 @@ public class RequestDAOImpl implements RequestDAO{
 		try(Connection conn = cf.getConnection()) {
 			CallableStatement call = conn.prepareCall(sql);
 			
+			System.out.println(r.getStreetAddress() + " " + r.getCity()+ " " + r.getState() + " " +r.getZip());
+			
 			call.setInt(1, r.getEmployeeId());
 			call.setDouble(2, r.getCost());
 			call.setDate(3, new Date(1));

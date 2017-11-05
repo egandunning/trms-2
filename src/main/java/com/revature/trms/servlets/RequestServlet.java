@@ -3,7 +3,6 @@ package com.revature.trms.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,9 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.revature.trms.database.dao.RequestDAO;
-import com.revature.trms.database.dao.RequestDAOImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.trms.database.dao.EmployeeDAO;
+import com.revature.trms.database.dao.EmployeeDAOImpl;
+import com.revature.trms.models.Employee;
 import com.revature.trms.models.Request;
+import com.revature.trms.util.GetRequests;
+import com.revature.trms.util.SubmitRequest;
 
 /**
  * Servlet implementation class RequestServlet
@@ -25,7 +28,9 @@ public class RequestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Based on employee type, returns a list of request lists. the first element
+	 * in the list is the list of the users own requests, the second element in
+	 * the list is the list of requests that the user can approve.
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -38,39 +43,49 @@ public class RequestServlet extends HttpServlet {
 			return;
 		}
 		
+		int empId = (Integer)currentSession.getAttribute("employeeId");
+		
 		PrintWriter pw = response.getWriter();
-		RequestDAO dao = new RequestDAOImpl();
 		
-		ArrayList<List<Request>> allRequests = new ArrayList<>();
+		EmployeeDAO dao = new EmployeeDAOImpl();
 		
-		List<Request> myRequests = null;
-		List<Request> subOrdinateRequests = null;
-		
+		List<List<Request>> requests = null;
 		
 		try {
-			myRequests = dao.getRequests((Integer)(currentSession.getAttribute("employeeId")));
-			allRequests.add(0, myRequests);
-			
-			
-		} catch (SQLException e) {
-			System.out.println("SQL error.");
-			e.printStackTrace();
-		} catch (Exception e) {
-			System.out.println("Session error.");
+			Employee emp = dao.getEmployee(empId);
+			if(emp.getDepartment().equals("benco")) {
+				requests = GetRequests.getRequestsBenCo(empId);
+			} else if(emp.getTitle().equalsIgnoreCase("department head")) {
+				requests = GetRequests.getRequestsDepartmentHead
+						(empId, emp.getDepartmentId());
+			} else {
+				requests = GetRequests.getRequests(empId);
+			}
+		} catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
-		
-		
-		
+		ObjectMapper mapper = new ObjectMapper();
+		pw.write(mapper.writeValueAsString(requests));
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		String requestData = request.getParameter("request");
+		System.out.println("Request data: " + requestData);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		Request req = mapper.readValue(requestData, Request.class);
+		
+		if(SubmitRequest.submit(req)) {
+			System.out.println("successfully added reimbursement request");
+		} else {
+			System.out.println("failed to add reimbursement request");
+		}
 	}
 
 }

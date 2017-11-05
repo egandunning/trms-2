@@ -1,17 +1,54 @@
 "use strict";
 
-var employee = {};
-employee.firstname = "Egan"
-employee.lastname = "Dunning"
-employee.streetAddress="123 street"
-employee.city="Herndon"
-employee.state="VA"
-employee.zip="12343"
-employee.superId=4
-employee.departmentId=0
-employee.email="egan@website.com"
-employee.plainPassword="pass"
-employee.title="sales lead"
+window.onload = function() {
+	populateDepartments();
+
+	document.getElementById("submit").addEventListener("click", updateEmployee);
+}
+
+var alertView = document.getElementById("alertView");
+
+function populateDepartments() {
+	let dropdown = document.getElementById("department");
+	
+	let xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function() {
+		if(xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			addDepartmentsToList(xhr.responseText);
+			setEmployeeInfo();
+		}
+	}
+	
+	xhr.open("GET", "Department", true);
+	xhr.send();
+}
+
+function addDepartmentsToList(data) {
+	
+	//Get javascript object from JSON data
+	data = JSON.parse(data);
+	
+	//Check type of data
+	if(data.__proto__ != [].__proto__) {
+		console.log("Bad data from department servlet");
+		return;
+	}
+	
+	//Create inner html for the select input
+	let htmlString = "";
+	
+	let i = 0;
+	let listSize = data.length;
+	for(i; i<listSize; i++) {
+		let item = data[i];
+		//<option value="department id">Department name</option>
+		htmlString += "<option id=\"" + item.id + "\" value=\"" + item.id + "\">" + item.name + "</option>";
+		console.log(htmlString);
+	}
+	
+	document.getElementById("department").innerHTML = htmlString;
+}
 
 /**
  * AJAX for getting employee info from Employee servlet
@@ -35,8 +72,21 @@ function getEmployee(id) {
 }
 
 function setEmployeeInfo() {
-	//TODO: Use DOM manipulation to populate form with employee data.
-	console.log(employee);
+	
+	let empData = document.cookie;
+	let employee = JSON.parse(empData);
+	document.getElementById("firstName").setAttribute("value", employee.firstname);
+	document.getElementById("lastName").setAttribute("value", employee.lastname);
+	document.getElementById("address").setAttribute("value", employee.streetAddress);
+	document.getElementById("city").setAttribute("value", employee.city);
+	document.getElementById("state").setAttribute("value", employee.state);
+	document.getElementById("zipcode").setAttribute("value", employee.zip);
+	document.getElementById("superId").setAttribute("value", employee.superId);
+	document.getElementById("email").setAttribute("value", employee.email);
+	document.getElementById("title").setAttribute("value", employee.title);
+	document.getElementById('"' + employee.departmentId +'"').setAttribute("selected");
+	console.log(empData);
+	document.cookie = "";
 }
 
 /**
@@ -44,10 +94,30 @@ function setEmployeeInfo() {
  * @returns an employee object
  */
 function getEmployeeInfo() {
-	//TODO: grab fields from form to create employee object.
-	let emp = {};
 	
-	return emp;
+	console.log("in getEmployeeInfo");
+	
+	let pass1 = document.getElementById("password").value;
+	let pass2 = document.getElementById("password2").value;
+	
+	if(pass1 != pass2) {
+		document.getElementById("alertView").innerHTML = '<font color="red">Passwords must match</font>';
+		return;
+	}
+	
+	let employee = {};
+	employee.firstname = document.getElementById("firstName").value;
+	employee.lastname =  document.getElementById("lastName").value;
+	employee.streetAddress = document.getElementById("address").value;
+	employee.city = document.getElementById("city").value;
+	employee.state = document.getElementById("state").value;
+	employee.zip = document.getElementById("zipcode").value;
+	employee.superId = document.getElementById("superId").value;
+	employee.departmentId = document.getElementById("department").value;
+	employee.email = document.getElementById("email").value;
+	employee.plainPassword = pass1;
+	employee.title = document.getElementById("title").value;
+	return employee;
 }
 
 /**
@@ -67,15 +137,22 @@ function addEmployee(employee) {
 	xhr.send("employee="+JSON.stringify(employee));
 }
 
-function updateEmployee(employee) {
+function updateEmployee() {
+	
+	console.log("in updateEmployee");
+	
+	let employee = getEmployeeInfo();
+	console.log("employee: " + JSON.stringify(employee));
 	
 	let xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function() {
 		if(xhr.readyState == 4 && xhr.status == 200) {
-			//TODO: display message
+			alertView.innerHTML = '<font color="blue">Successful update.</font>';
+		} else if(xhr.readyState == 4 && xhr.status != 200) {
+			alertView.innerHTML = '<font color="red">Failed to update info.</font>';
 		}
 	}
-	xhr.open("PUT", "Employee", true);
+	xhr.open("POST", "UpdateEmployee", true);
 	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	xhr.send("employee="+JSON.stringify(employee));
 }

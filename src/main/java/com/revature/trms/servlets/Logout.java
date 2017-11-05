@@ -27,11 +27,14 @@ public class Logout extends HttpServlet {
 		
 		HttpSession session = request.getSession(false);
 		
-		if(session == null || session.getAttribute("employeeId") == null) {
-			//response.sendRedirect("");//redirect to login page
+		if(session == null) {
+			response.setStatus(300);//redirect to login page
+			response.setHeader("Location", "login.html");
 		} else {
 			session.invalidate();
 			//response.sendRedirect("");//redirect to logged out page
+			response.setStatus(300);
+			response.setHeader("Location", "login.html");
 		}
 	}
 

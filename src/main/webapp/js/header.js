@@ -5,7 +5,8 @@ var header = document.getElementsByTagName("header")[0];
 
 header.innerHTML = '<button id="headerInfoButton">User Info</button>' +
 	'<button id="headerBalanceButton">My Balance</button>' +
-	'<button id="headerLogoutButton">Log Out</button>' +
+	'<span style="float:left"><form action="Logout" method="POST">' +
+	'<button type="submit" id="headerLogoutButton">Logout</button></form></span>' +
 	'<button id="headerViewRequestButton">View Requests</button><hr>';
 
 //Go to user info page 
@@ -21,11 +22,11 @@ document.getElementById("headerBalanceButton").addEventListener("click", functio
 });
 
 //Logout
-document.getElementById("headerLogoutButton").addEventListener("click", function() {
+/*document.getElementById("headerLogoutButton").addEventListener("click", function() {
 	let xhr = new XMLHttpRequest();
 	xhr.onreadystatechanged = function() {
 		if(xhr.readyState == 4 && xhr.status == 200) {
-			window.location.href = "login.html";
+			//window.location.href = "login.html";
 		}
 		if(xhr.readyState == 4 && xhr.status != 200) {
 			alert("Logout failed...");
@@ -33,7 +34,7 @@ document.getElementById("headerLogoutButton").addEventListener("click", function
 	}
 	xhr.open("POST", "Logout", true);
 	xhr.send();
-});
+});*/
 
 //View requests
 document.getElementById("headerViewRequestButton").addEventListener("click", function() {

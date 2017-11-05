@@ -36,6 +36,14 @@ public interface RequestDAO {
 	public List<Request> getRequests(int employeeId) throws SQLException;
 	
 	/**
+	 * Retrieve all requests made by direct supervisees of an employee.
+	 * @param employeeId of the employee to pull requests from
+	 * @return A list of all requests by said employee.
+	 * @throws SQLException
+	 */
+	public List<Request> getSubordinateRequests(int employeeId) throws SQLException;
+	
+	/**
 	 * Retrieve request with the specified ID.
 	 * @param id The id of the desired request.
 	 * @return The request with that id.

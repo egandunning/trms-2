@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.revature.logging.LoggingService;
 import com.revature.trms.database.ConnectionFactory;
-import com.revature.trms.models.Employee;
 import com.revature.trms.models.Request;
 
 import oracle.jdbc.OracleTypes;
@@ -103,6 +102,30 @@ public class RequestDAOImpl implements RequestDAO{
 			return requests;
 		}
 		
+	}
+	
+	@Override
+	public List<Request> getSubordinateRequests(int employeeId) throws SQLException {
+		
+		String sql = "{call read_sub_requests_by_employee(?)}";
+		
+		try(Connection conn = cf.getConnection()) {
+			
+			CallableStatement call = conn.prepareCall(sql);
+			call.setInt(1, employeeId);
+			call.registerOutParameter(1, OracleTypes.CURSOR);
+			call.executeQuery();
+			
+			ResultSet rs = (ResultSet)call.getObject(1);
+			
+			ArrayList<Request> requests = new ArrayList<Request>();
+			
+			while(rs.next()) {
+				Request req = requestFromResultSet(rs);
+				requests.add(req);
+			}
+			return requests;
+		}
 	}
 
 	@Override

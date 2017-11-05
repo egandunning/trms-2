@@ -2,6 +2,7 @@ package com.revature.trms.database.dao;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,15 +40,17 @@ public class RequestDAOImpl implements RequestDAO{
 			
 			call.setInt(1, r.getEmployeeId());
 			call.setDouble(2, r.getCost());
-			call.setString(3, r.getStreetAddress());
-			call.setString(4, r.getCity());
-			call.setString(5, r.getState());
-			call.setString(6, r.getZip());
-			call.setString(7, r.getDescription());
-			call.setInt(8, r.getEventType());
-			call.setInt(9, r.getGradingFormat());
-			call.setInt(10, r.getDaysMissed());
-			call.setString(11, r.getJustification());
+			call.setDate(3, new Date(1));
+			call.setString(4, r.getStreetAddress());
+			call.setString(5, r.getCity());
+			call.setString(6, r.getState());
+			call.setString(7, r.getZip());
+			call.setString(8, r.getDescription());
+			call.setInt(9, r.getEventType());
+			call.setInt(10, r.getGradingFormat());
+			call.setInt(11, r.getDaysMissed());
+			call.setString(12, r.getJustification());
+			call.setInt(13, 0);
 			
 			call.executeUpdate();
 			LoggingService.getLogger().info("Employee " + r.getEmployeeId() + 
@@ -93,7 +96,7 @@ public class RequestDAOImpl implements RequestDAO{
 			call.registerOutParameter(2, OracleTypes.CURSOR);
 			call.executeQuery();
 			
-			ResultSet rs = (ResultSet)call.getObject(1);
+			ResultSet rs = (ResultSet)call.getObject(2);
 			
 			ArrayList<Request> requests = new ArrayList<Request>();
 			
@@ -118,7 +121,7 @@ public class RequestDAOImpl implements RequestDAO{
 			call.registerOutParameter(2, OracleTypes.CURSOR);
 			call.executeQuery();
 			
-			ResultSet rs = (ResultSet)call.getObject(1);
+			ResultSet rs = (ResultSet)call.getObject(2);
 			
 			ArrayList<Request> requests = new ArrayList<Request>();
 			

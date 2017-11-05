@@ -74,12 +74,24 @@ public class RequestServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		int empId = 0;
+		
+		try {
+			empId = (Integer)request.getSession().getAttribute("employeeId");
+		} catch (Exception e) {
+			System.out.println("exception in post request");
+			e.printStackTrace();
+		}
+		
 		String requestData = request.getParameter("request");
 		System.out.println("Request data: " + requestData);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
 		Request req = mapper.readValue(requestData, Request.class);
+		
+		req.setEmployeeId(empId);
+		
 		
 		if(SubmitRequest.submit(req)) {
 			System.out.println("successfully added reimbursement request");

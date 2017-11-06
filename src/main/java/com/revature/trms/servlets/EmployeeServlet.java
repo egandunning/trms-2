@@ -56,7 +56,7 @@ public class EmployeeServlet extends HttpServlet {
 		
 		response.setStatus(300);
 		response.setHeader("Location", "employee.html");
-		response.setHeader("Set-Cookie", data);
+		response.addHeader("Set-Cookie", data);
 	}
 
 	/**

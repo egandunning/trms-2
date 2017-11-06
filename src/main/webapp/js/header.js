@@ -6,7 +6,13 @@ var header = document.getElementsByTagName("header")[0];
 header.innerHTML = '<button id="headerInfoButton" class="btn waves-effect waves-light">User Info</button>' +
 	'<button id="headerBalanceButton" class="btn waves-effect waves-light">My Balance</button>' +
 	'<span style="float:left"><form action="Logout" method="POST"><button id="headerLogoutButton" class="btn waves-effect waves-light">Log Out</button></form></span>' +
-	'<button id="headerViewRequestButton" class="btn waves-effect waves-light">View Requests</button><hr>';
+	'<button id="headerViewRequestButton" class="btn waves-effect waves-light">View Requests</button>' +
+	'<button id="goToIndex" class="btn waves-effect waves-light">Submit Request</button><hr>';
+
+//go to index
+document.getElementById("goToIndex").addEventListener("click", function() {
+	window.location.href = "index.html";
+});
 
 //Go to user info page 
 document.getElementById("headerInfoButton").addEventListener("click", function() {

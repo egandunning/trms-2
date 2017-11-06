@@ -1,5 +1,10 @@
 "use strict";
 
+$(document).ready(function() {
+	console.log("loading material select");
+    $('select').material_select();
+});
+
 window.onload = function() {
 	populateDepartments();
 }
@@ -23,7 +28,7 @@ function addDepartmentsToList(data) {
 	
 	//Get javascript object from JSON data
 	data = JSON.parse(data);
-	
+		
 	//Check type of data
 	if(data.__proto__ != [].__proto__) {
 		console.log("Bad data from department servlet");
@@ -39,10 +44,13 @@ function addDepartmentsToList(data) {
 		let item = data[i];
 		//<option value="department id">Department name</option>
 		htmlString += "<option value=\"" + item.id + "\">" + item.name + "</option>";
-		console.log(htmlString);
+		
 	}
-	
+	console.log(htmlString);
 	document.getElementById("department").innerHTML = htmlString;
+
+	console.log("loading material select");
+    $('select').material_select();
 }
 
 document.getElementById("submit").addEventListener("click", newEmployee);

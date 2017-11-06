@@ -3,95 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <title>TRMS</title>
+
+<!--Import Google Icon Font-->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!--Import materialize.css-->
+<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+
+
 </head>
 <body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.js"></script>
+
+<div class="container">
 <header></header>
 
 <fieldset>
 <legend><b>Employee info</b></legend>
-<table>
-    <tr>
-      <td>First name</td>
-      <td>
-        <input type="text" name="firstName" id="firstName" required>
-      </td>
-    </tr>
-    <tr>
-      <td>Last name</td>
-      <td>
-        <input type="text" name="lastName" id="lastName" required>
-      </td>
-    </tr>
-    <tr>
-      <td>Street address</td>
-      <td>
-        <input type="text" name="address" id="address" required>
-      </td>
-    </tr>
-    <tr>
-      <td>City</td>
-      <td>
-        <input type="text" name="city" id="city" required>
-      </td>
-    </tr> 
-    <tr>
-      <td>State</td>
-      <td>
-        <input type="text" name="state" id="state" required>
-      </td>
-    </tr>
-    <tr>
-      <td>Zip code</td>
-      <td>
-        <input type="number" name="zipcode" id="zipcode" required>
-      </td>
-    </tr>
-    <tr>
-      <td>Supervisor ID</td>
-      <td>
-        <input type="number" name="superId" id="superId" required>
-      </td>
-    </tr>
-    <tr>
-      <td>Department</td>
-      <td>
-        <select name="department" id="department" required>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td>Email address</td>
-      <td>
-        <input type="text" name="email" id="email" required readonly>
-      </td>
-    </tr>
-    <tr>
-      <td>Position title</td>
-      <td>
-        <input type="text" name="title" id="title" required>
-      </td>
-    </tr>
-    <tr>
-      <td>Password</td>
-      <td>
-        <input type="password" name="password" id="password" required>
-      </td>
-    </tr>
-    <tr>
-      <td>Re-enter password</td>
-      <td>
-        <input type="password" name="password2" id="password2" required>
-      </td>
-    </tr>
-    <tr>
-       <td id="alertView"><td>
-    </tr>
-    <tr>
-      <td><button id="submit">Update info</button></td>
-    </tr> 
-  </table>
+  First name<br/>
+
+  <input type="text" name="firstName" id="firstName" required><br/>
+  Last name<br/>
+  <input type="text" name="lastName" id="lastName" required><br/>
+  Street address<br/>
+  <input type="text" name="address" id="address" required><br/>
+  City<br/>
+  <input type="text" name="city" id="city" required><br/>
+  State<br/>
+  <input type="text" name="state" id="state" required><br/>
+  Zip code<br/>
+  <input type="number" name="zipcode" id="zipcode" required><br/>
+  Supervisor ID<br/>
+  <input type="number" name="superId" id="superId" required><br/>
+  Department<br/>
+  <select name="department" id="department" required></select><br/>
+  Email address<br/>
+  <input type="text" name="email" id="email" required readonly><br/>
+  Position title<br/>
+  <input type="text" name="title" id="title" required><br/>
+  Password<br/>
+  <input type="password" name="password" id="password" required><br/>
+  Re-enter password<br/>
+  <input type="password" name="password2" id="password2" required><br/>
+  <span id="alertView"></span><br/>
+  <button class="btn waves-effect waves-light" id="submit">Update info</button>
+  
 </fieldset>
 
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="js/materialize.js"></script>
 <script src="js/header.js"></script>
 <script src="js/employees.js"></script>
 </body>

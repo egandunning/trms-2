@@ -1,8 +1,14 @@
 "use strict";
 
+
+$(document).ready(function() {
+	console.log("loading material select");
+    $('select').material_select();
+});
+
 window.onload = function() {
 	populateDepartments();
-
+	
 	document.getElementById("submit").addEventListener("click", updateEmployee);
 }
 
@@ -44,10 +50,10 @@ function addDepartmentsToList(data) {
 		let item = data[i];
 		//<option value="department id">Department name</option>
 		htmlString += "<option id=\"" + item.id + "\" value=\"" + item.id + "\">" + item.name + "</option>";
-		console.log(htmlString);
 	}
 	
 	document.getElementById("department").innerHTML = htmlString;
+	$('select').material_select();
 }
 
 /**
@@ -71,38 +77,31 @@ function getEmployee(id) {
 	xhr.send("employeeId=" + id);
 }
 
-function getCookie(cname) {
-    var name = cname + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
 function setEmployeeInfo() {
 	
-	let empData = document.cookie;
-	let employee = JSON.parse(empData);
-	document.getElementById("firstName").setAttribute("value", employee.firstname);
-	document.getElementById("lastName").setAttribute("value", employee.lastname);
-	document.getElementById("address").setAttribute("value", employee.streetAddress);
-	document.getElementById("city").setAttribute("value", employee.city);
-	document.getElementById("state").setAttribute("value", employee.state);
-	document.getElementById("zipcode").setAttribute("value", employee.zip);
-	document.getElementById("superId").setAttribute("value", employee.superId);
-	document.getElementById("email").setAttribute("value", employee.email);
-	document.getElementById("title").setAttribute("value", employee.title);
-	document.getElementById('"' + employee.departmentId +'"').setAttribute("selected");
-	console.log(empData);
-	document.cookie = "";
+	let employee = {};
+	
+	
+	let xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function() {
+		if(xhr.readyState == 4 && xhr.status == 200) {
+			employee = JSON.parse(xhr.responseText);
+
+			document.getElementById("firstName").setAttribute("value", employee.firstname);
+			document.getElementById("lastName").setAttribute("value", employee.lastname);
+			document.getElementById("address").setAttribute("value", employee.streetAddress);
+			document.getElementById("city").setAttribute("value", employee.city);
+			document.getElementById("state").setAttribute("value", employee.state);
+			document.getElementById("zipcode").setAttribute("value", employee.zip);
+			document.getElementById("superId").setAttribute("value", employee.superId);
+			document.getElementById("email").setAttribute("value", employee.email);
+			document.getElementById("title").setAttribute("value", employee.title);
+			document.getElementById('"' + employee.departmentId +'"').setAttribute("selected");
+		}
+	}
+	xhr.open("GET", "EmployeeInfo", true);
+	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	xhr.send();
 }
 
 /**

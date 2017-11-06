@@ -3,63 +3,85 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>TRMS</title>
-<link rel="stylesheet" type="text/css" href="materialStyles.css">
+
+<!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+      
+      
 </head>
 <body>
+
+
+<div class="container">
+
 <header>
-	<button>User Info</button>
-	<button>My Balance</button>
-	<button>Log Out</button>
+	
 	
 	<a href="view.html">View Requests</a>
 </header>
 
+
 <div>
-	<form>
+	
   		<fieldset>
     	<legend>Course Logistics</legend>
    			Name of Course:<br>
-    		<input type="text" name="name" value="Required"><br>
+    		<input type="text" name="name" id="name"><br>
     		Date:<br>
-    		<input type="date" name="courseTime" value="Required"><br>
+    		<input type="date" name="courseTime" id="courseTime"><br>
     		Cost:<br>
-    		<input type="text" name="cost" value="Required"><br>
+    		<input type="text" name="cost" id="cost"><br>
     		Course Description:<br>
-    		<input type="text" name="desc" value="Optional"><br>
+    		<input type="text" name="desc" id="desc"><br>
   		</fieldset>
   		<fieldset>
     	<legend>Address</legend>
    			Street Address:<br>
-    		<input type="text" name="streetAddress" value="Required"><br>
+    		<input type="text" name="streetAddress" id="streetAddress"><br>
    			City:<br>
-    		<input type="text" name="city" value="Required"><br>
+    		<input type="text" name="city" id="city"><br>
     		State:<br>
-    		<input type="text" name="state" value="Required"><br>
+    		<input type="text" name="state" id="state"><br>
     		Zip Code:<br>
-    		<input type="text" name="zip" value="Required"><br>
+    		<input type="text" name="zip" id="zip"><br>
   		</fieldset>
   		<fieldset>
     	<legend>Course Format</legend>
    			Type of Course:<br>
-    		<input type="number" name="eventType" value="Required"><br>
+    		<input type="number" name="eventType" id="eventType"><br>
    			Grading Format:<br>
-    		<input type="number" name="gradingFormat" value="Required"><br>
+    		<input type="number" name="gradingFormat" id="gradingFormat"><br>
     		Time Off Required:<br>
-    		<input type="number" name="daysMissed" value="Required"><br>
+    		<input type="number" name="daysMissed" id="daysMissed"><br>
     		Justification:<br>
-    		<input type="text" name="justification" value="Required"><br>
+    		<input type="text" name="justification" id="justification"><br>
   		</fieldset>
   		<fieldset>
     	<legend>Attachments</legend>
    			Previous Approval:<br>
-    		<input type="file" name="approval" value="Optional"><br>
+    		<input type="file" name="approval"><br>
   		</fieldset>
-  		<input type="submit" value="Submit">
-	</form>
+  		<button class="btn waves-effect waves-light" id="submit">Submit<i class="material-icons right">send</i>
+  		</button>
+	
 </div>
 
+</div>
 
- <script type="text/javascript" src="styling.js"></script>
- <footer></footer>
+<footer class=page-footer>
+<div class="footer-copyright">
+            <div class="container">
+            © 2017 Copyright Revature
+            </div>
+</div>
+</footer>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="js/materialize.js"></script>
+ <script type="text/javascript" src="js/header.js"></script>
+ <script type="text/javascript" src="js/index.js"></script>
+
 </body>
 </html>

@@ -3,9 +3,17 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>TRMS</title>
-<link rel="stylesheet" type="text/css" href="materialStyles.css">
+
+<!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+
 </head>
 <body>
+
+<div class="container">
+
   <header></header>
 
   <div>
@@ -20,14 +28,32 @@
           <td><input type="password" id="password" name="password"/></td>
         </tr>
         <tr>
-          <td></td><td><input type="submit" value="Login"/></td>
+          <td></td><td><input type="submit" value="Login" class="btn waves-effect waves-light" name="action"/></td>
         </tr>
       </table>
     </form>
   </div>
     
 
-  <script type="text/javascript" src="styling.js"></script>
-  <script type="text/javascript" src="header.js"></script>
+  
+  <div>
+    <a href="register.html">Create account</a>
+  </div>
+
+</div>
+
+<footer class=page-footer>
+<div class="footer-copyright">
+            <div class="container">
+            © 2017 Copyright Revature
+            </div>
+</div>
+</footer>
+
+  <script type="text/javascript" src="js/styling.js"></script>
+  <script type="text/javascript" src="js/header.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.js"></script>
+  <script type="text/javascript" src="js/materialize.js"></script>
+      
 </body>
 </html>

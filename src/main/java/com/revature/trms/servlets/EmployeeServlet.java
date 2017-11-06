@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.crypto.Hash;
 import com.revature.logging.LoggingService;
+import com.revature.trms.database.dao.EmployeeDAO;
 import com.revature.trms.database.dao.EmployeeDAOImpl;
 import com.revature.trms.models.Employee;
 
@@ -28,14 +29,17 @@ public class EmployeeServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		System.out.println("in employee doGet");
+		
 		int empId = 0;
 		
 		Employee emp = null;
 		
 		try {
-			empId = Integer.parseInt(request.getParameter("employeeId"));
+			//empId = Integer.parseInt(request.getParameter("employeeId"));
+			empId = (Integer)request.getSession().getAttribute("employeeId");
 			emp = new EmployeeDAOImpl().getEmployee(empId);
-		} catch (NumberFormatException e) {
+		} catch (IllegalStateException e) {
 			LoggingService.getLogger().warn("invalid employee id.", e);
 			response.getWriter().write("{\"alert\" : \"Invalid employee id\"}");
 			return;
@@ -46,7 +50,13 @@ public class EmployeeServlet extends HttpServlet {
 		}
 		
 		ObjectMapper mapper = new ObjectMapper();
-		response.getWriter().write(mapper.writeValueAsString(emp));
+		String data = mapper.writeValueAsString(emp);
+		
+		System.out.println("data: " + data);
+		
+		response.setStatus(300);
+		response.setHeader("Location", "employee.html");
+		response.setHeader("Set-Cookie", data);
 	}
 
 	/**
@@ -54,16 +64,24 @@ public class EmployeeServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		String employeeString = request.getParameter("employee");
+		
+		System.out.println("Employee data: " + employeeString);
+		
 		ObjectMapper mapper = new ObjectMapper();
-		Employee emp = mapper.readValue(request.getParameter("employee"), Employee.class);
+		Employee emp = mapper.readValue(employeeString, Employee.class);
 		
 		//hash pass
 		emp.setPassword(Hash.pbkdf2(emp.getPlainPassword().toCharArray()));
 		
 		try {
-			new EmployeeDAOImpl().addEmployee(emp);
+			EmployeeDAO dao = new EmployeeDAOImpl();
+			dao.addEmployee(emp);
+			HttpSession newSession = request.getSession();
+			newSession.setAttribute("employeeId", dao.getEmployee(emp.getEmail()));
 			response.getWriter().write("{\"info\" : \"Registration complete.\"}");
 		} catch(SQLException e) {
+			e.printStackTrace();
 			LoggingService.getLogger().warn("Database error.", e);
 			response.getWriter().write("{\"alert\" : \"Database error.\"}");
 		}
@@ -81,7 +99,6 @@ public class EmployeeServlet extends HttpServlet {
 		
 		int empId = 0;
 		
-		
 		//check employee id associated with session
 		try {
 			empId = Integer.parseInt(currentSession.getAttribute("employeeId").toString());
@@ -94,7 +111,10 @@ public class EmployeeServlet extends HttpServlet {
 		
 		//get employee json object
 		ObjectMapper mapper = new ObjectMapper();
-		Employee emp = mapper.readValue(request.getParameter("employee"), Employee.class);
+		
+		String employeeString = request.getParameter("employee");
+		System.out.println("Employee: " + employeeString);
+		Employee emp = mapper.readValue(employeeString, Employee.class);
 		
 		//attempt to modify employee
 		try {

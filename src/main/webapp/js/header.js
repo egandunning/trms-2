@@ -3,14 +3,14 @@
 //Populate header with buttons and register event listeners.
 var header = document.getElementsByTagName("header")[0];
 
-header.innerHTML = '<button id="headerInfoButton">User Info</button>' +
-	'<button id="headerBalanceButton">My Balance</button>' +
-	'<button id="headerLogoutButton">Log Out</button>' +
-	'<button id="headerViewRequestButton">View Requests</button>';
+header.innerHTML = '<button id="headerInfoButton" class="btn waves-effect waves-light">User Info</button>' +
+	'<button id="headerBalanceButton" class="btn waves-effect waves-light">My Balance</button>' +
+	'<span style="float:left"><form action="Logout" method="POST"><button id="headerLogoutButton" class="btn waves-effect waves-light">Log Out</button></form></span>' +
+	'<button id="headerViewRequestButton" class="btn waves-effect waves-light">View Requests</button><hr>';
 
 //Go to user info page 
 document.getElementById("headerInfoButton").addEventListener("click", function() {
-	window.location.href = "employee.html";
+	window.location.href = "Employee";
 });
 
 //View reimbursement balance
@@ -22,17 +22,8 @@ document.getElementById("headerBalanceButton").addEventListener("click", functio
 
 //Logout
 document.getElementById("headerLogoutButton").addEventListener("click", function() {
-	let xhr = new XMLHttpRequest();
-	xhr.onreadystatechanged = function() {
-		if(xhr.readyState == 4 && xhr.status == 200) {
-			window.location.href = "login.html";
-		}
-		if(xhr.readyState == 4 && xhr.status != 200) {
-			alert("Logout failed...");
-		}
-	}
-	xhr.open("POST", "Logout", true);
-	xhr.send();
+	console.log("invalidating cookie")
+	document.cookie = '';
 });
 
 //View requests

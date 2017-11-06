@@ -31,6 +31,8 @@ public class SubmitRequest {
 		
 		RequestDAO dao = new RequestDAOImpl();
 		
+		double requestAmount = req.getCost() * reimburseMap.get(req.getEventType());
+		
 		try {
 			List<Request> requests = dao.getRequests(req.getEmployeeId());
 			double reimbursementAmount = 0;
@@ -46,7 +48,7 @@ public class SubmitRequest {
 			}
 			
 			//check amount of the reimbursement requests
-			if(reimbursementAmount >= 1000) {
+			if(reimbursementAmount + requestAmount >= 1000) {
 				return false;
 			}
 

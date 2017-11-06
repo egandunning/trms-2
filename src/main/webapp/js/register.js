@@ -93,7 +93,7 @@ function addEmployee(employee) {
 
 			let response = JSON.parse(xhr.responseText);
 			if(response.info == "Registration complete.") {
-				window.location.href = "index.html";
+				window.location.href = "login.html";
 			} else {
 				document.getElementById("alertView").innerHTML = '<font color="red">Error with registration.</font>';
 			}

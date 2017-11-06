@@ -241,17 +241,17 @@ public class RequestDAOImpl implements RequestDAO{
 		Request req = new Request();
 		req.setId(rs.getInt(1));
 		req.setEmployeeId(rs.getInt(2));
-		req.setCost(rs.getDouble(3));
-		req.setStatus(rs.getInt(4));
+		req.setCost(rs.getDouble(6));
+		req.setStatus(rs.getInt(8));
 		req.setStreetAddress(rs.getString("address_street_address"));
 		req.setCity(rs.getString("address_city"));
 		req.setState(rs.getString("address_state"));
 		req.setZip(rs.getString("address_zip"));
-		req.setDescription(rs.getString(9));
-		req.setEventType(rs.getInt(10));
-		req.setGradingFormat(rs.getInt(11));
-		req.setDaysMissed(rs.getInt(12));
-		req.setJustification(rs.getString(13));
+		req.setDescription(rs.getString(13));
+		req.setEventType(rs.getInt(15));
+		req.setGradingFormat(rs.getInt(18));
+		req.setDaysMissed(rs.getInt(20));
+		req.setJustification(rs.getString(21));
 		return req;
 	}
 	

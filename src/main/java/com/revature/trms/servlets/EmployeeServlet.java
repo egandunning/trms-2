@@ -80,6 +80,7 @@ public class EmployeeServlet extends HttpServlet {
 			HttpSession newSession = request.getSession();
 			newSession.setAttribute("employeeId", dao.getEmployee(emp.getEmail()));
 			response.getWriter().write("{\"info\" : \"Registration complete.\"}");
+			request.getSession().setAttribute("employeeId", emp.getId());
 		} catch(SQLException e) {
 			e.printStackTrace();
 			LoggingService.getLogger().warn("Database error.", e);

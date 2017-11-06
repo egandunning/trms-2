@@ -36,7 +36,7 @@ function addRequest(request) {
 
 			let response = JSON.parse(xhr.responseText);
 			
-				window.location.href = "index.html";
+			document.getElementById("alertView").innerHTML = '<font color="blue">Successfully placed reimbursement request.</font>';
 			
 		} else if(xhr.readyState == 4 && xhr.status != 200) {
 			document.getElementById("alertView").innerHTML = '<font color="red">Error with registration.</font>';

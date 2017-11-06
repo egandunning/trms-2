@@ -91,6 +91,7 @@ public class RequestServlet extends HttpServlet {
 		Request req = mapper.readValue(requestData, Request.class);
 		
 		req.setEmployeeId(empId);
+		System.out.println("employee id: " + empId);
 		
 		
 		if(SubmitRequest.submit(req)) {
